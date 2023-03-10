@@ -3,8 +3,11 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 import logging
+import tensorflow as tf
 from torch import from_numpy
 from keras.datasets import mnist, cifar10
+from keras.layers import Input, Lambda
+from keras.layers.preprocessing.normalization import Normalization
 
 def get_data(dataset_type, path=None):
     if dataset_type == "MNIST":

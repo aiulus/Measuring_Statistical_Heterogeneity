@@ -1,22 +1,8 @@
-from torch import tensor, from_numpy
-from torchvision import datasets, transforms
 import numpy as np
-import sklearn
-from sklearn.model_selection import StratifiedKFold
-import logging
-import math
-import random
-from sklearn.mixture import GaussianMixture
 import pandas as pd
 from matplotlib import pyplot as plt
-import seaborn as sns
-from scipy.stats import kstest, anderson_ksamp, cumfreq, ks_2samp, cramervonmises, chisquare, entropy, wasserstein_distance
-
-import tensorflow as tf
-from keras import models, layers, optimizers
+from keras import optimizers
 from keras.datasets import mnist, cifar10
-from keras.layers import Input, Lambda
-from keras.layers.preprocessing.normalization import Normalization
 from keras.models import Sequential
 from keras.layers import Activation, Dense, Dropout
 from keras.layers import Conv2D, MaxPooling2D, Flatten
@@ -24,7 +10,9 @@ from keras.utils import to_categorical, plot_model
 from keras.losses import SparseCategoricalCrossentropy, CategoricalCrossentropy
 # from ann_visualizer.visualize import ann_viz
 
-from src.utils.utils import get_data, getDivs, map_to_prob, vis_divergence, tensor_to_csv, plot_curve, normalized_euclidian_transform
+from src.utils.utils import getDivs, tensor_to_csv, plot_curve, normalized_euclidian_transform
+from src.utils.partitioning import partition
+
 
 def get_layers_functions(dataset_type, model_type):
     cnn_layers = {
