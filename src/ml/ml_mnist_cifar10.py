@@ -14,7 +14,7 @@ from src.utils.utils import getDivs, tensor_to_csv, plot_curve, normalized_eucli
 from src.utils.partitioning import partition
 
 
-def get_layers_functions(dataset_type, model_type):
+def get_architecture(dataset_type, model_type):
     cnn_layers = {
         "MNIST": [Conv2D(filters=64,
                          kernel_size=3,
@@ -85,7 +85,7 @@ def get_layers_functions(dataset_type, model_type):
 def build_model(dataset_type, model_type, data, n_epochs, lrate, batch_size=None):
     train_data, train_targets, test_data, test_targets = data
 
-    layers, loss_function = get_layers_functions(dataset_type, model_type)
+    layers, loss_function = get_architecture(dataset_type, model_type)
 
     model = Sequential()
 
@@ -100,7 +100,7 @@ def build_model(dataset_type, model_type, data, n_epochs, lrate, batch_size=None
     # 60000/32 = 1875 datapoints per epoch
     history = model.fit(train_data, train_targets,
                         epochs=n_epochs,
-                        validation_data=(test_data, test_targets), batch_size=32)
+                        validation_data=(test_data, test_targets), batch_size=batch_size)
     # batch_size=4000
     loss, accuracy = model.evaluate(test_data, test_targets, batch_size=batch_size)
 
