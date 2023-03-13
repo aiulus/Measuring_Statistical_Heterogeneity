@@ -107,6 +107,7 @@ def build_model(dataset_type, model_type, data, n_epochs, lrate, batch_size=None
     return accuracy, loss, history.epoch, pd.DataFrame(history.history)
 
 
+# TODO: entry point 2
 def run_experiment(model_type, dataset_type, partitioning_type, n_clients, alpha, n_epochs, lrate=0.003,
                    batch_size=None):
     dataset_loaders = {
@@ -153,6 +154,7 @@ def run_experiment(model_type, dataset_type, partitioning_type, n_clients, alpha
     return accuracies
 
 
+# TODO: entry point 1
 def run_multi_experiment(model_type, dataset_type, partitioning_type, n_clients, alpha, epochs, lrate=0.003):
     dict_accuracies = {}
     accuracies_mean = []

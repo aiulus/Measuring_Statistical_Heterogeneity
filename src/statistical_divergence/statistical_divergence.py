@@ -3,10 +3,12 @@ import math
 import random
 import pandas as pd
 from matplotlib import pyplot as plt
-from scipy.stats import kstest, anderson_ksamp, cumfreq, ks_2samp, cramervonmises, chisquare, entropy, wasserstein_distance
+from scipy.stats import kstest, anderson_ksamp, cumfreq, ks_2samp, cramervonmises, chisquare, entropy, \
+    wasserstein_distance
 from src.utils.utils import get_data, getDivs, map_to_prob, vis_divergence, tensor_to_csv
 from statsmodels.distributions.empirical_distribution import ECDF
 from src.utils.partitioning import partition
+
 
 def distance(y_train, subset_map, mode):
     def kl_divergence(p, q):
@@ -61,6 +63,7 @@ def distance(y_train, subset_map, mode):
     return stats, pvals
 
 
+# TODO: entry point 4
 def run_experiment(dataset_type, alpha_vector, path, mode_part, mode_test, mode_plot, n_clients, plot=False,
                    logpath=None, save=False):
     train, test = get_data(dataset_type, path)
@@ -106,7 +109,7 @@ def run_experiment(dataset_type, alpha_vector, path, mode_part, mode_test, mode_
         xlab = [f'α_{j}={alpha}' for j, alpha in enumerate(alpha_vector)]
     else:
         l, u, steps = tuple(round(x, 1) for x in (
-        min(alpha_vector), max(alpha_vector), (max(alpha_vector) - min(alpha_vector)) / (len(alpha_vector) - 1)))
+            min(alpha_vector), max(alpha_vector), (max(alpha_vector) - min(alpha_vector)) / (len(alpha_vector) - 1)))
         xlab = f'[{l}:{u}], step size = {steps}'
 
     if plot:
@@ -115,6 +118,7 @@ def run_experiment(dataset_type, alpha_vector, path, mode_part, mode_test, mode_
     return (evol_stat, evol_pval)
 
 
+# TODO: entry point 3
 def multi_plot(dataset_type, alpha_vector, path, mode_part, mode_test, mode_plot, n_clients, runs):
     vals = []
     for j in range(runs):
