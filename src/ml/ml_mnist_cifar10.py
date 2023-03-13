@@ -101,10 +101,16 @@ def build_model(dataset_type, model_type, data, n_epochs, lrate, batch_size=None
     history = model.fit(train_data, train_targets,
                         epochs=n_epochs,
                         validation_data=(test_data, test_targets), batch_size=batch_size)
-    # batch_size=4000
+
+    return model, history.epoch, pd.DataFrame(history.history)
+
+
+def evaluate_model(model, data, batch_size=None):
+    train_data, train_targets, test_data, test_targets = data
+
     loss, accuracy = model.evaluate(test_data, test_targets, batch_size=batch_size)
 
-    return accuracy, loss, history.epoch, pd.DataFrame(history.history)
+    return accuracy, loss
 
 
 # TODO: entry point 2
@@ -128,6 +134,7 @@ def run_experiment(model_type, dataset_type, partitioning_type, n_clients, alpha
         test_data = test_data.reshape((-1,) + test_data.shape[1:3] + (1,))
 
     subset_map = partition(dataset_type, partitioning_type, n_clients, alpha)
+    models = []
     accuracies = []
 
     for j in range(len(subset_map)):
@@ -147,7 +154,10 @@ def run_experiment(model_type, dataset_type, partitioning_type, n_clients, alpha
 
         data_j = (subset_j_data, subset_j_targets, test_data, test_targets)
         # accuracy, loss, epochs, hist = build_model(dataset_type, model_type, data_j, n_epochs, lrate)
-        accuracy = build_model(dataset_type, model_type, data_j, n_epochs, lrate)[0]
+        # build_model returns a tuple (model, epoch, history), use model_j[0] to access the actual model
+        model_j = build_model(dataset_type, model_type, data_j, n_epochs, lrate)
+        models.append(model_j)
+        accuracy = evaluate_model(model_j, data_j)[0]
 
         accuracies.append(accuracy)
 
