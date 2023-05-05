@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "Measuring_Statistical_Heterogeneity"
+version="0.1.1"
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.scripts]
+run_statistical = "src.statistical_divergence.statistical_divergence:run_experiment"
+    [tool.poetry.scripts.run_statistical]
+    args = "dataset_type, alpha_vector, path, mode_part, mode_test, mode_plot, n_clients, plot=False,
+                   logpath=None, save=False"
+run_multi_statistical = "src.statistical_divergence.statistical_divergence:multi_plot"
+    [tool.poetry.scripts.run_multi_statistical]
+    args = ""
+run_ml = "src.ml.ml_mnist_cifar10:run_experiment"
+    [tool.poetry.scripts.run_ml]
+    args = ""
+run_ml_multi = "src.ml.ml_mnist_cifar10:run_multi_experiment"
+    [tool.poetry.scripts.run_ml_multi]
+    args = ""
+
+[tool.poetry.packages]
+include = ["ml", "statistical_divergence", "utils"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
